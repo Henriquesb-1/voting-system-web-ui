@@ -1,0 +1,41 @@
+.polls {
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.poll {
+    width: 320px;
+    height: 350px;
+    text-align: center;
+    background-color: #ccc;
+    padding: 10px;
+    box-shadow: .5px .5px .5px .5px #b9b9b9;
+    border: 1px solid #b9b9b9;
+
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1.5s;
+}
+
+.poll:hover {
+    width: 340px;
+    height: 370px;
+    box-shadow: 1px 1px 1px 1px #b9b9b9;
+}
+
+@media screen and (max-width: 1024px) {
+    .polls {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .polls {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .poll {
+        width: 100%;
+    }
+}
