@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import APICall from "../../../utils/APICall";
 import Option from "../../../model/Option";
 import FeedBack from "../../../utils/Feedback";
 
@@ -30,7 +31,16 @@ export default function RenderOptions({ options, hasExpired }: RenderOptionsProp
     }
 
     function vote() {
-        
+        const voteCount = optionVoted.voteCount + 1;
+
+        APICall.put(`/options`, {id: optionVoted.id, content: optionVoted.content, voteCount})
+            .then(resp => {
+                setHasAlreadyVoted(true);
+                setOptionVoted({id: optionVoted.id, content: optionVoted.content,  voteCount, pollId: optionVoted.pollId});
+                localStorage.setItem("last_vote", JSON.stringify(optionVoted));
+                FeedBack.success("Voto registrado com sucesso");
+            })
+            .catch(err => FeedBack.error("Erro ao registrar voto"));
     }
 
     function removeVote() {
@@ -43,7 +53,7 @@ export default function RenderOptions({ options, hasExpired }: RenderOptionsProp
     function renderOptions() {
         return options.map(option => {
             return (
-                <li onClick={e => hasExpired ? false : selectOption(option)} key={`option-item-${option.content}`} className="poll-vote-option margin-y" style={{ backgroundColor: `${optionVoted.id === option.id ? "#f00" : ""}` }}>
+                <li onClick={e => hasExpired  || hasAlreadyVoted ? false : selectOption(option)} key={`option-item-${option.content}`} className="poll-vote-option margin-y" style={{ backgroundColor: `${optionVoted.id === option.id ? "#f00" : ""}` }}>
                     {option.content}
 
                     <span>{option.voteCount} votos</span>
