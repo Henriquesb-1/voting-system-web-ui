@@ -1,4 +1,5 @@
 import { useState } from "react"
+import APICall from "../../../utils/APICall";
 import Option from "../../../model/Option";
 import FeedBack from "../../../utils/Feedback";
 
@@ -8,6 +9,9 @@ export default function RegisterPoll() {
     const [options, setOptions] = useState<Option[]>([]);
     const [optionsMissing, setOptionsMissing] = useState<number>(3);
 
+    const [title, setTitle] = useState<string>("");
+    const [startDate, setStartDate] = useState<string>("");
+    const [endDate, setEndDate] = useState<string>("");
     const [option, setOption] = useState<string>("");
 
     function addOption() {
@@ -18,6 +22,7 @@ export default function RegisterPoll() {
         } else if (option) {
             setOptions(options.concat({ id: 0, content: option, pollId: 0, voteCount: 0 }));
             if(optionsMissing > 0) setOptionsMissing(optionsMissing - 1);
+            setOption("");
         } else {
             FeedBack.error("Conteudo não pode ficar vazio");
         }
@@ -26,6 +31,29 @@ export default function RegisterPoll() {
     function removeOption(option: Option) {
         setOptions(options.filter(optionToFilter => optionToFilter.content !== option.content));
         if(options.length <= 3) setOptionsMissing(optionsMissing + 1);
+    }
+
+    function savePool() {
+        const removeBar = (date: string) => date.split("/" || "-").join("");
+
+        const dateCheck = new RegExp("^(?:19|20)\\d\\d(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])$");
+
+        if(!dateCheck.test(removeBar(startDate))) {
+            FeedBack.error("Data de inicio não informada ou formato invalido");
+        } else if(!dateCheck.test(removeBar(endDate))) {
+            FeedBack.error("Data de termino não informada ou formato invalido");
+        } else {
+            APICall.post(`/poll`, {title, startDate, endDate, options})
+                .then(resp => {
+                    setTitle("");
+                    setStartDate("");
+                    setEndDate("");
+                    setOptions([]);
+                    FeedBack.success("Enquete criada com sucesso");
+                })
+                .catch(err => FeedBack.error("Erro ao criar enquete"));
+        }
+
     }
 
     function renderOptions() {
@@ -58,7 +86,7 @@ export default function RegisterPoll() {
                 </div>
 
                 <div className="input">
-                    <input placeholder="Informe o título" type="text" id="title" name="title" />
+                    <input placeholder="Informe o título" value={title} onChange={e => setTitle(e.target.value)} type="text" id="title" name="title" />
                 </div>
             </div>
 
@@ -68,7 +96,7 @@ export default function RegisterPoll() {
                 </div>
 
                 <div className="input">
-                    <input placeholder="Formato ANO/MÊS/DIA" type="text" id="start_date" name="start_date" />
+                    <input placeholder="Formato ANO/MÊS/DIA" value={startDate} onChange={e => setStartDate(e.target.value)} type="text" id="start_date" name="start_date" />
                 </div>
             </div>
 
@@ -78,7 +106,7 @@ export default function RegisterPoll() {
                 </div>
 
                 <div className="input">
-                    <input placeholder="Formato ANO/MÊS/DIA" type="text" id="end_date" name="end_date" />
+                    <input placeholder="Formato ANO/MÊS/DIA" value={endDate} onChange={e => setEndDate(e.target.value)}  type="text" id="end_date" name="end_date" />
                 </div>
             </div>
 
@@ -104,7 +132,7 @@ export default function RegisterPoll() {
 
             {optionsMissing === 0 ? (
                 <div className="save">
-                    <button className="clean-button">Salvar</button>
+                    <button type="button" onClick={e => savePool()} className="clean-button">Salvar</button>
                 </div>
             ) : false}
         </form>
