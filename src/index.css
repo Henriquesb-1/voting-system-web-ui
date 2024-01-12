@@ -91,3 +91,8 @@ body {
   cursor: pointer;
 }
 
+.blank-button {
+  background: none;
+  padding: none;
+}
+
