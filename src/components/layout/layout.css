@@ -1,0 +1,11 @@
+.app {
+    height: 100%;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.content {
+    flex-grow: 1;
+}

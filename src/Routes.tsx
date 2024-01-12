@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router";
+import Home from "./pages/Home";
 
 export default function RoutesControl() {
     return (
         <Routes>
-            <Route path="/" element={<h1>Olá</h1>} />
+            <Route path="/" element={<Home />} />
         </Routes>
     )
 }
