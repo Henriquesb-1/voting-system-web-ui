@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import PollModel from "../../model/Poll";
-import APICall from "../../utils/APICall";
-import PollStatus from "../../model/PollStatus";
+import PollModel from "../../../model/Poll";
+import APICall from "../../../utils/APICall";
+import PollStatus from "../../../model/PollStatus";
 
-import "./poll.css";
-import Paginator from "../utils/Paginator";
+import "./polls.css";
+import Paginator from "../../utils/Paginator";
 import { useSearchParams } from "react-router-dom";
 
-export default function Poll() {
+export default function Polls() {
     const [polls, setPolls] = useState<PollModel[]>([]);
     const [pages, setPages] = useState<number>(1);
 
