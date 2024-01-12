@@ -14,6 +14,11 @@ body {
   display: flex;
 }
 
+.flex-row-center {
+  display: flex;
+  justify-content: center;
+}
+
 .flex-row-between {
   display: flex;
   justify-content: space-between;
@@ -35,6 +40,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .clean-link {
@@ -76,7 +87,7 @@ body {
 }
 
 .clean-button:hover {
-  padding: 7px;
+  background-color: rgb(35, 71, 35);
   cursor: pointer;
 }
 

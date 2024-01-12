@@ -5,7 +5,6 @@ import PollStatus from "../../../model/PollStatus";
 
 import "./polls.css";
 import Paginator from "../../utils/Paginator";
-import { useSearchParams } from "react-router-dom";
 
 interface PollsProps {
     currentPage: string;
@@ -50,8 +49,8 @@ export default function Polls({ currentPage }: PollsProps) {
                     <div className="poll-link">
                         <button style={{ color: "#000" }}
                             onClick={e => goToPoll(poll._title)}
-                            disabled={poll._status === PollStatus.EXPIRED || poll._status === PollStatus.WILL_START}
-                            title={poll._status === PollStatus.WILL_START ? `Irá ficar disponivel em ${poll._startDate}` : `Acessar enquete ${poll._title}`}
+                            disabled={poll._status === PollStatus.WILL_START}
+                            title={poll._status === PollStatus.WILL_START ? `Irá ficar disponivel em ${poll._startDate}` : `Acessar enquete`}
                             className="clean-button"
                         >
                             Acessar enquete
