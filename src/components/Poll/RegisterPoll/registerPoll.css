@@ -1,0 +1,36 @@
+.input-group {
+    width: 100%;
+}
+
+.input-group .input input {
+    width: 800px;
+    height: 35px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    outline-color: rgb(1, 76, 105);
+}
+
+.option-to-save {
+    position: relative;
+
+    width: 800px;
+    min-height: 35px;
+
+    margin-top: 5px;
+
+    padding: 7px;
+    text-align: center;
+    background-color: rgb(10, 207, 207);
+}
+
+.option-to-save .delete-option {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.option-to-save .delete-option button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
