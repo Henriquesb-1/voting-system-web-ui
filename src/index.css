@@ -9,3 +9,40 @@ html, body, #root {
 body {
   margin: 0;
 }
+
+.flex {
+  display: flex;
+}
+
+.flex-row-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-row-around {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.flex-column-between {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.clean-link {
+  color: #fff;
+  text-decoration: none;
+  padding: 7px;
+}
+
+.clean-link-no-hover {
+  color: #fff;
+  text-decoration: none;
+  padding: 7px;
+}
+
+.clean-link:hover {
+  background-color: #f00;
+}
