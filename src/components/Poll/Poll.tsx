@@ -4,17 +4,23 @@ import APICall from "../../utils/APICall";
 import PollStatus from "../../model/PollStatus";
 
 import "./poll.css";
+import Paginator from "../utils/Paginator";
+import { useSearchParams } from "react-router-dom";
 
 export default function Poll() {
     const [polls, setPolls] = useState<PollModel[]>([]);
+    const [pages, setPages] = useState<number>(1);
+
+    const [searchParams] = useSearchParams();
 
     useEffect(() => {
-        APICall.get(`/poll`)
+        APICall.get(`/poll?page=${searchParams.get("page")}`)
             .then(resp => {
                 const { data } = resp;
                 setPolls(data.data);
+                setPages(data.pages)
             });
-    })
+    }, [])
 
     function renderPolls() {
         return polls.map((poll, index) => {
@@ -51,8 +57,12 @@ export default function Poll() {
     }
 
     return (
-        <div className="polls margin-y">
-            {renderPolls()}
-        </div>
+        <>
+            <div className="polls margin-y">
+                {renderPolls()}
+            </div>
+
+            <Paginator currentPage={searchParams.get("page") || "1"} pages={pages} pageURL="/" />
+        </>
     )
 }
