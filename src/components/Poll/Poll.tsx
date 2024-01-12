@@ -22,6 +22,9 @@ export default function Poll() {
             });
     }, [])
 
+    const goToPoll = (link: string) => window.location.replace(`/poll/${link}`);
+    
+
     function renderPolls() {
         return polls.map((poll, index) => {
             return (
@@ -44,6 +47,7 @@ export default function Poll() {
 
                     <div className="poll-link">
                         <button style={{ color: "#000" }}
+                            onClick={e => goToPoll(poll._title)}
                             disabled={poll._status === PollStatus.EXPIRED || poll._status === PollStatus.WILL_START}
                             title={poll._status === PollStatus.WILL_START ? `Irá ficar disponivel em ${poll._startDate}` : `Acessar enquete ${poll._title}`}
                             className="clean-button"
