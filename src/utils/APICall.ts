@@ -16,4 +16,33 @@ export default class APICall {
             throw error;
         }
     }
+
+    public static async post(url: string, data: any) {
+        try {
+            const request = await Axios.post(`${this.#baseAPIUrl}${url}`, data);
+
+            return {
+                data: request.data,
+                status: request.status,
+                statusText: request.statusText
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public static async put(url: string, data: any) {
+        try {
+            const request = await Axios.put(`${this.#baseAPIUrl}${url}`, data);
+            
+            return {
+                data: request.data,
+                status: request.status,
+                statusText: request.statusText
+            }
+        } catch (error) {
+            console.log(error)
+            throw error;
+        }
+    }
 }
