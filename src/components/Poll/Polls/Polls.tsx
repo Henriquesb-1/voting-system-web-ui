@@ -7,14 +7,16 @@ import "./polls.css";
 import Paginator from "../../utils/Paginator";
 import { useSearchParams } from "react-router-dom";
 
-export default function Polls() {
+interface PollsProps {
+    currentPage: string;
+}
+
+export default function Polls({ currentPage }: PollsProps) {
     const [polls, setPolls] = useState<PollModel[]>([]);
     const [pages, setPages] = useState<number>(1);
 
-    const [searchParams] = useSearchParams();
-
     useEffect(() => {
-        APICall.get(`/poll?page=${searchParams.get("page")}`)
+        APICall.get(`/poll?page=${currentPage}`)
             .then(resp => {
                 const { data } = resp;
                 setPolls(data.data);
@@ -66,7 +68,7 @@ export default function Polls() {
                 {renderPolls()}
             </div>
 
-            <Paginator currentPage={searchParams.get("page") || "1"} pages={pages} pageURL="/" />
+            <Paginator currentPage={currentPage} pages={pages} pageURL="/" />
         </>
     )
 }
