@@ -32,7 +32,7 @@ export default function RegisterPoll() {
         if (options.length > 0) {
             return options.map(option => {
                 return (
-                    <div className="option-to-save">
+                    <div key={`option-${option.content}`} className="option-to-save">
                         <div>
                             <span>{option.content}</span>
                         </div>
