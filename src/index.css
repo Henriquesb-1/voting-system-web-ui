@@ -52,3 +52,11 @@ body {
 .clean-link:hover {
   background-color: #f00;
 }
+
+.margin-y {
+  margin: 10px 0;
+}
+
+.margin-x {
+  margin: 0 10px;
+}
