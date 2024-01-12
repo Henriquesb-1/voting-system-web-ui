@@ -5,6 +5,7 @@ import APICall from "../../../utils/APICall";
 import RenderOptions from "./RenderOptions";
 
 import "./renderPoll.css"
+import Option from "@/model/Option";
 
 interface RenderPollProps {
     title: string;
@@ -14,10 +15,14 @@ const blankPoll: Poll = { _id: 0, _title: "", _startDate: "", _endDate: "", _opt
 
 export default function RenderPoll({ title }: RenderPollProps) {
     const [poll, setPoll] = useState<Poll>(blankPoll);
+    const [options, setOptions] = useState<Option[]>([]);
 
     useEffect(() => {
         APICall.get(`/poll/title?t=${title}?`)
-            .then(resp => setPoll(resp.data))
+            .then(resp => {
+                setPoll(resp.data);
+                setOptions(resp.data._options);
+            })
             .catch(err => console.log(err))
     }, [])
 
@@ -41,7 +46,7 @@ export default function RenderPoll({ title }: RenderPollProps) {
                 </div>
 
                 <div className="options">
-                    <RenderOptions options={poll._options} hasExpired={poll._status === PollStatus.EXPIRED} />
+                    <RenderOptions options={options} setOptions={setOptions} hasExpired={poll._status === PollStatus.EXPIRED} />
                 </div>
             </div>
         )

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import APICall from "../../../utils/APICall";
 import Option from "../../../model/Option";
 import FeedBack from "../../../utils/Feedback";
@@ -7,12 +7,13 @@ import "./renderOptions.css";
 
 interface RenderOptionsProps {
     options: Option[];
+    setOptions: Dispatch<SetStateAction<Option[]>>;
     hasExpired: boolean;
 }
 
 const blankOption: Option = { id: 0, content: "", voteCount: 0, pollId: 0 };
 
-export default function RenderOptions({ options, hasExpired }: RenderOptionsProps) {
+export default function RenderOptions({ options, setOptions, hasExpired }: RenderOptionsProps) {
     const [optionVoted, setOptionVoted] = useState<Option>(blankOption);
     const [hasAlreadyVoted, setHasAlreadyVoted] = useState<boolean>(false);
 
@@ -30,24 +31,32 @@ export default function RenderOptions({ options, hasExpired }: RenderOptionsProp
         else setOptionVoted(option);
     }
 
-    function vote() {
-        const voteCount = optionVoted.voteCount + 1;
+    function handleVote() {
+        const voteCount = hasAlreadyVoted ? optionVoted.voteCount - 1 : optionVoted.voteCount + 1;
 
         APICall.put(`/options`, {id: optionVoted.id, content: optionVoted.content, voteCount})
             .then(resp => {
-                setHasAlreadyVoted(true);
-                setOptionVoted({id: optionVoted.id, content: optionVoted.content,  voteCount, pollId: optionVoted.pollId});
-                localStorage.setItem("last_vote", JSON.stringify(optionVoted));
-                FeedBack.success("Voto registrado com sucesso");
+                const updatedOptionVoted = {id: optionVoted.id, content: optionVoted.content, voteCount, pollId: optionVoted.pollId}
+
+                setOptions(options.map(option => {
+                    if(option.id === updatedOptionVoted.id) option.voteCount = voteCount;
+                    return option;
+                }))
+
+                if(hasAlreadyVoted) {
+                    selectOption(blankOption);
+                    setOptionVoted({id: optionVoted.id, content: optionVoted.content, voteCount, pollId: optionVoted.pollId});
+                    localStorage.removeItem("last_vote");
+                    setHasAlreadyVoted(false);
+                    FeedBack.success("Voto removido");
+                } else {
+                    setHasAlreadyVoted(true);
+                    setOptionVoted(updatedOptionVoted);
+                    localStorage.setItem("last_vote", JSON.stringify(updatedOptionVoted));
+                    FeedBack.success("Voto registrado com sucesso");
+                }
             })
             .catch(err => FeedBack.error("Erro ao registrar voto"));
-    }
-
-    function removeVote() {
-        selectOption(blankOption);
-        localStorage.removeItem("last_vote");
-        setHasAlreadyVoted(false);
-        FeedBack.success("Voto removido");
     }
 
     function renderOptions() {
@@ -68,7 +77,7 @@ export default function RenderOptions({ options, hasExpired }: RenderOptionsProp
 
             {optionVoted !== blankOption || hasAlreadyVoted && !hasExpired ? (
                 <div>
-                    <button onClick={e => hasAlreadyVoted ? removeVote() : vote()} className="clean-button">{hasAlreadyVoted ? "Remover voto" : "Votar"}</button>
+                    <button onClick={e => handleVote()} className="clean-button">{hasAlreadyVoted ? "Remover voto" : "Votar"}</button>
                 </div>
             ) : false}
         </ul>
