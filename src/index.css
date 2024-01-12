@@ -25,6 +25,12 @@ body {
   align-items: center;
 }
 
+.flex-row-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .flex-column-between {
   display: flex;
   flex-direction: column;
