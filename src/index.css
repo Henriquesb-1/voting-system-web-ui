@@ -60,3 +60,23 @@ body {
 .margin-x {
   margin: 0 10px;
 }
+
+.clean-button {
+  background-color: rgb(0, 151, 0);
+  padding: 7px;
+  color: #fff !important;
+  border: none;
+}
+
+.clean-button:disabled {
+  background-color: rgb(42, 87, 42);
+  padding: 7px;
+  color: #fff !important;
+  border: none;
+}
+
+.clean-button:hover {
+  padding: 7px;
+  cursor: pointer;
+}
+
