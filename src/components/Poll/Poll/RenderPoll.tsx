@@ -31,6 +31,8 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [hasOccurredAnError, setHasOccurredAnError] = useState<boolean>(false);
 
+    const [hasExpired, setHasExpired] = useState<boolean>(false);
+
     useEffect(() => {
         const title = window.location.href.split("/")[4];
 
@@ -39,6 +41,7 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
                 setPoll(resp.data);
                 blankPoll._id = resp.data.id;
                 setOptions(resp.data._options);
+                setHasExpired(resp.data._status === PollStatus.EXPIRED);
                 setVoteHasUpdate(false);
             })
             .catch(err => setHasOccurredAnError(true))
@@ -48,7 +51,7 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
     useEffect(() => {
         const title = window.location.href.split("/")[4];
 
-        if (!hasOccurredAnError) {
+        if (!hasOccurredAnError && !hasExpired) {
             const interval = setInterval(() => {
                 APICall.get(`/options/listener?pollTitle=${title}`)
                     .then(resp => setVoteHasUpdate(resp.data))
@@ -56,7 +59,7 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
 
             return () => clearInterval(interval);
         }
-    }, [hasOccurredAnError])
+    }, [hasOccurredAnError, hasExpired])
 
     function changeMode(mode?: PollMode) {
         setModeToChangeTo(mode || PollMode.RENDER);
