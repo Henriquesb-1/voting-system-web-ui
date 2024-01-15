@@ -85,7 +85,7 @@ export default function RegisterPoll() {
                     <label htmlFor="title">Título</label>
                 </div>
 
-                <div className="input">
+                <div className="input flex-row-center">
                     <input placeholder="Informe o título" value={title} onChange={e => setTitle(e.target.value)} type="text" id="title" name="title" />
                 </div>
             </div>
@@ -95,7 +95,7 @@ export default function RegisterPoll() {
                     <label htmlFor="start_date">Data de inicio</label>
                 </div>
 
-                <div className="input">
+                <div className="input flex-row-center">
                     <input placeholder="Formato ANO/MÊS/DIA" value={startDate} onChange={e => setStartDate(e.target.value)} type="text" id="start_date" name="start_date" />
                 </div>
             </div>
@@ -105,7 +105,7 @@ export default function RegisterPoll() {
                     <label htmlFor="end_date">Data de termino</label>
                 </div>
 
-                <div className="input">
+                <div className="input flex-row-center">
                     <input placeholder="Formato ANO/MÊS/DIA" value={endDate} onChange={e => setEndDate(e.target.value)}  type="text" id="end_date" name="end_date" />
                 </div>
             </div>
@@ -116,13 +116,13 @@ export default function RegisterPoll() {
                         <label htmlFor="option">Opção</label>
                     </div>
 
-                    <div className="input">
+                    <div className="input flex-row-center">
                         <input placeholder="Digite o conteudo da opção" onChange={e => setOption(e.target.value)} type="text" id="option" name="option" />
                     </div>
                 </div>
 
                 <div className="margin-y">
-                    <button type="button" className="clean-button" onClick={() => addOption()}>Adionar opção {optionsMissing > 0 ? `Obrigatório mais ${optionsMissing})` : ""}</button>
+                    <button type="button" className="clean-button" onClick={() => addOption()}>Adionar opção {optionsMissing > 0 ? `(Obrigatório mais ${optionsMissing})` : ""}</button>
                 </div>
 
                 <div className="margin-y">
