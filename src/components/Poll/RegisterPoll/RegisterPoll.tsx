@@ -137,7 +137,7 @@ export default function RegisterPoll() {
                     <button type="button" className="clean-button" onClick={() => addOption()}>Adionar opção {optionsMissing > 0 ? `(Obrigatório mais ${optionsMissing})` : ""}</button>
                 </div>
 
-                <div className="margin-y">
+                <div className="margin-y options flex-column-center">
                     {renderOptions()}
                 </div>
             </div>

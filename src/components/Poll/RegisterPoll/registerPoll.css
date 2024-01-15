@@ -13,6 +13,10 @@
     outline-color: rgb(1, 76, 105);
 }
 
+.options {
+    width: 100%;
+}
+
 .option-to-save {
     position: relative;
 
@@ -43,4 +47,7 @@
         width: 100%;
     }
     
+    .option-to-save {    
+        width: 100%;
+    }
 }

@@ -192,22 +192,22 @@ export default function UpdatePoll({ poll, setPollMode }: UpdateOrDeletePollProp
                     <button type="button" className="clean-button" onClick={() => addOption()}>Adionar opção {optionsMissing > 0 ? `(Obrigatório mais ${optionsMissing})` : ""}</button>
                 </div>
 
-                <div className="margin-y">
+                <div className="margin-y" style={{width: "100%"}}>
                     <div className="flex-row-center">
                         <h3>Opções já adicionadas:</h3>
                     </div>
 
-                    <div>
+                    <div className="margin-y options flex-column-center">
                         {renderRegisteredOptions()}
                     </div>
                 </div>
 
-                <div className="margin-y">
+                <div className="margin-y" style={{width: "100%"}}>
                     <div>
-                        <h3>Opções a serem adicionadas:</h3>
+                        <h3 style={{textAlign: "center"}}>Opções a serem adicionadas:</h3>
                     </div>
 
-                    <div>
+                    <div className="margin-y options flex-column-center">
                         {renderOptionsToBeAdd()}
                     </div>
                 </div>
