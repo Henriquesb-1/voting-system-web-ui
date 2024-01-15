@@ -1,13 +1,10 @@
-import { useParams, useSearchParams } from "react-router-dom";
 import Layout from "../components/layout/Layout";
-import RenderPoll from "../components/Poll/Poll/RenderPoll";
+import PollCrud from "../components/Poll/Poll/PollCrud";
 
 export default function Poll() {
-    const { title } = useParams();
-
     return (
         <Layout>
-            <RenderPoll title={title || ""} />
+            <PollCrud />
         </Layout>
     )
 }

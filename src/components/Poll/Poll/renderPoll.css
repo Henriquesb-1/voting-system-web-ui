@@ -1,3 +1,9 @@
 .poll-vote {
     text-align: center;
 }
+
+.auth-screen input {
+    width: 320px;
+    height: 25px;
+    border-radius: 5px;
+}

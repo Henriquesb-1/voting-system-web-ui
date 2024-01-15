@@ -12,6 +12,7 @@ export default function RegisterPoll() {
     const [title, setTitle] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>("");
+    const [creatorCode, setCreatorCode] = useState<string>("");
     const [option, setOption] = useState<string>("");
 
     function addOption() {
@@ -43,17 +44,18 @@ export default function RegisterPoll() {
         } else if(!dateCheck.test(removeBar(endDate))) {
             FeedBack.error("Data de termino não informada ou formato invalido");
         } else {
-            APICall.post(`/poll`, {title, startDate, endDate, options})
+            APICall.post(`/poll`, {title, startDate, endDate, creatorCode, options})
                 .then(resp => {
                     setTitle("");
                     setStartDate("");
                     setEndDate("");
+                    setCreatorCode("");
+                    setOption("");
                     setOptions([]);
                     FeedBack.success("Enquete criada com sucesso");
                 })
                 .catch(err => FeedBack.error("Erro ao criar enquete"));
         }
-
     }
 
     function renderOptions() {
@@ -107,6 +109,16 @@ export default function RegisterPoll() {
 
                 <div className="input flex-row-center">
                     <input placeholder="Formato ANO/MÊS/DIA" value={endDate} onChange={e => setEndDate(e.target.value)}  type="text" id="end_date" name="end_date" />
+                </div>
+            </div>
+
+            <div className="input-group margin-y flex-column-center">
+                <div>
+                    <label htmlFor="creator-code">Informe um código</label>
+                </div>
+
+                <div className="input flex-row-center">
+                    <input placeholder="Para sabermos quem criou a enquete" value={creatorCode} onChange={e => setCreatorCode(e.target.value)}  type="text" id="creator-code" name="creator-code" />
                 </div>
             </div>
 
