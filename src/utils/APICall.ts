@@ -45,4 +45,19 @@ export default class APICall {
             throw error;
         }
     }
+
+    public static async delete(url: string) {
+        try {
+            const request = await Axios.delete(`${this.#baseAPIUrl}${url}`);
+            
+            return {
+                data: request.data,
+                status: request.status,
+                statusText: request.statusText
+            }
+        } catch (error) {
+            console.log(error)
+            throw error;
+        }
+    }
 }
