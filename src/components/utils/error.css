@@ -1,0 +1,13 @@
+.error-screen {
+    position: absolute;
+    top: 150px;
+
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.error-screen img {
+    width: 150px;
+    height: 150px;
+}
