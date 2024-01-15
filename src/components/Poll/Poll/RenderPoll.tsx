@@ -39,16 +39,16 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
             .catch(err => console.log(err))
     }, [voteHasUpdate])
 
-    // useEffect(() => {
-    //     const title = window.location.href.split("/")[4];
+    useEffect(() => {
+        const title = window.location.href.split("/")[4];
 
-    //     const interval = setInterval(() => {
-    //         APICall.get(`/options/listener?pollTitle=${title}`)
-    //             .then(resp => setVoteHasUpdate(resp.data))
-    //     }, 1000)
+        const interval = setInterval(() => {
+            APICall.get(`/options/listener?pollTitle=${title}`)
+                .then(resp => setVoteHasUpdate(resp.data))
+        }, 1000)
 
-    //     return () => clearInterval(interval);
-    // }, [])
+        return () => clearInterval(interval);
+    }, [])
 
     function changeMode(mode?: PollMode) {
         setModeToChangeTo(mode || PollMode.RENDER);
@@ -138,7 +138,7 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
                 </div>
 
                 <div className="options">
-                    <RenderOptions pollId={poll._id} options={options} setOptions={setOptions} hasExpired={poll._status === PollStatus.EXPIRED} />
+                    <RenderOptions pollId={poll._id} pollTitle={poll._title} options={options} setOptions={setOptions} hasExpired={poll._status === PollStatus.EXPIRED} />
                 </div>
             </div>
         )

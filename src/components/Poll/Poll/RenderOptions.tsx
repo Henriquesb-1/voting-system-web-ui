@@ -7,6 +7,7 @@ import "./renderOptions.css";
 
 interface RenderOptionsProps {
     pollId: number;
+    pollTitle: string;
     options: Option[];
     setOptions: Dispatch<SetStateAction<Option[]>>;
     hasExpired: boolean;
@@ -14,7 +15,7 @@ interface RenderOptionsProps {
 
 const blankOption: Option = { id: 0, content: "", voteCount: 0, pollId: 0 };
 
-export default function RenderOptions({ pollId, options, setOptions, hasExpired }: RenderOptionsProps) {
+export default function RenderOptions({ pollId, pollTitle, options, setOptions, hasExpired }: RenderOptionsProps) {
     const [optionVoted, setOptionVoted] = useState<Option>(blankOption);
     const [hasAlreadyVoted, setHasAlreadyVoted] = useState<boolean>(false);
 
@@ -35,7 +36,7 @@ export default function RenderOptions({ pollId, options, setOptions, hasExpired 
     function handleVote() {
         const voteCount = hasAlreadyVoted ? optionVoted.voteCount - 1 : optionVoted.voteCount + 1;
 
-        APICall.put(`/options`, { id: optionVoted.id, content: optionVoted.content, voteCount, poll: { id: pollId }, willUpdateVoteCount: true })
+        APICall.put(`/options`, { id: optionVoted.id, content: optionVoted.content, voteCount, poll: { id: pollId, title: pollTitle }, willUpdateVoteCount: true })
             .then(resp => {
                 const updatedOptionVoted = { id: optionVoted.id, content: optionVoted.content, voteCount, pollId: optionVoted.pollId }
 
