@@ -1,0 +1,10 @@
+.loading {
+    position: absolute;
+    top: 40%;
+    bottom: 50%;
+}
+
+.loading img {
+    width: 150px;
+    height: 150px;
+}
