@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import PollModel from "../../../model/Poll";
 import APICall from "../../../utils/APICall";
+import Paginator from "../../utils/Paginator";
 import PollStatus from "../../../model/PollStatus";
 
+import Loading from "../../../components/utils/Loading";
+
 import "./polls.css";
-import Paginator from "../../utils/Paginator";
 
 interface PollsProps {
     currentPage: string;
@@ -14,14 +16,17 @@ export default function Polls({ currentPage }: PollsProps) {
     const [polls, setPolls] = useState<PollModel[]>([]);
     const [pages, setPages] = useState<number>(1);
 
-    // useEffect(() => {
-    //     APICall.get(`/poll?page=${currentPage}`)
-    //         .then(resp => {
-    //             const { data } = resp;
-    //             setPolls(data.data);
-    //             setPages(data.pages)
-    //         });
-    // }, [])
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        APICall.get(`/poll?page=${currentPage}`)
+            .then(resp => {
+                const { data } = resp;
+                setPolls(data.data);
+                setPages(data.pages)
+            })
+            .finally(() => setIsLoading(false));
+    }, [])
 
     const goToPoll = (link: string) => window.location.replace(`/poll/${link}`);
 
@@ -75,7 +80,7 @@ export default function Polls({ currentPage }: PollsProps) {
     return (
         <>
             <div className="polls margin-y">
-                {renderPolls()}
+                {isLoading ? <Loading /> : <>{renderPolls()}</>}                
             </div>
 
             <Paginator currentPage={currentPage} pages={pages} pageURL="/" />

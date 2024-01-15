@@ -6,6 +6,7 @@ import APICall from "../../../utils/APICall";
 import RenderOptions from "./RenderOptions";
 import Option from "../../../model/Option";
 import FeedBack from "../../../utils/Feedback";
+import Loading from "../../../components/utils/Loading";
 
 import "./renderPoll.css";
 
@@ -26,6 +27,8 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
     const [creatorCode, setCreatorCode] = useState<string>("");
     const [modeToChangeTo, setModeToChangeTo] = useState<PollMode>(PollMode.RENDER);
 
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
     useEffect(() => {
         const title = window.location.href.split("/")[4];
 
@@ -37,6 +40,7 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
                 setVoteHasUpdate(false);
             })
             .catch(err => console.log(err))
+            .finally(() => setIsLoading(false));
     }, [voteHasUpdate])
 
     useEffect(() => {
@@ -146,7 +150,7 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
 
     return (
         <div className="flex-row-center margin-y">
-            {renderPoll()}
+            {isLoading ? <Loading /> : renderPoll()}
         </div>
     )
 }
