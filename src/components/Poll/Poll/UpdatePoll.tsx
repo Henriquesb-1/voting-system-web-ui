@@ -143,7 +143,7 @@ export default function UpdatePoll({ poll, setPollMode }: UpdateOrDeletePollProp
 
     return (
         <form className="flex-column-center">
-            <div className="back-button" style={{alignSelf: "flex-start"}}>
+            <div className="back-button" style={{ alignSelf: "flex-start" }}>
                 <button type="button" onClick={e => setPollMode(PollMode.RENDER)} className="blank-button">Voltar para tela anterior</button>
             </div>
 
@@ -192,7 +192,7 @@ export default function UpdatePoll({ poll, setPollMode }: UpdateOrDeletePollProp
                     <button type="button" className="clean-button" onClick={() => addOption()}>Adionar opção {optionsMissing > 0 ? `(Obrigatório mais ${optionsMissing})` : ""}</button>
                 </div>
 
-                <div className="margin-y" style={{width: "100%"}}>
+                <div className="margin-y" style={{ width: "100%" }}>
                     <div className="flex-row-center">
                         <h3>Opções já adicionadas:</h3>
                     </div>
@@ -202,9 +202,9 @@ export default function UpdatePoll({ poll, setPollMode }: UpdateOrDeletePollProp
                     </div>
                 </div>
 
-                <div className="margin-y" style={{width: "100%"}}>
+                <div className="margin-y" style={{ width: "100%" }}>
                     <div>
-                        <h3 style={{textAlign: "center"}}>Opções a serem adicionadas:</h3>
+                        <h3 style={{ textAlign: "center" }}>Opções a serem adicionadas:</h3>
                     </div>
 
                     <div className="margin-y options flex-column-center">
@@ -214,7 +214,9 @@ export default function UpdatePoll({ poll, setPollMode }: UpdateOrDeletePollProp
             </div>
 
             {optionsToAdd.length > 0 ? (
-                <button type="button" className="clean-button" onClick={e => saveNewOptions()}>Salvar novas opções</button>
+                <div className="margin-y">
+                    <button type="button" className="clean-button" onClick={e => saveNewOptions()}>Salvar novas opções</button>
+                </div>
             ) : false}
 
             {optionsToDelete ? (
