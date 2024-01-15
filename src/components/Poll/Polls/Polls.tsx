@@ -3,6 +3,7 @@ import PollModel from "../../../model/Poll";
 import APICall from "../../../utils/APICall";
 import Paginator from "../../utils/Paginator";
 import PollStatus from "../../../model/PollStatus";
+import Error from "../../../components/utils/Error";
 
 import Loading from "../../../components/utils/Loading";
 
@@ -17,6 +18,7 @@ export default function Polls({ currentPage }: PollsProps) {
     const [pages, setPages] = useState<number>(1);
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [hasOccurredAnError, setHasOccurredAnError] = useState<boolean>(false);
 
     useEffect(() => {
         APICall.get(`/poll?page=${currentPage}`)
@@ -25,6 +27,7 @@ export default function Polls({ currentPage }: PollsProps) {
                 setPolls(data.data);
                 setPages(data.pages)
             })
+            .catch(err => setHasOccurredAnError(true))
             .finally(() => setIsLoading(false));
     }, [])
 
@@ -80,7 +83,9 @@ export default function Polls({ currentPage }: PollsProps) {
     return (
         <>
             <div className="polls margin-y">
-                {isLoading ? <Loading /> : <>{renderPolls()}</>}                
+                {!hasOccurredAnError ? (
+                    <>{isLoading ? <Loading /> : <>{renderPolls()}</>}</>
+                ) : <Error />}                
             </div>
 
             <Paginator currentPage={currentPage} pages={pages} pageURL="/" />

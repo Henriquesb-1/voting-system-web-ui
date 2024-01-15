@@ -7,6 +7,7 @@ import RenderOptions from "./RenderOptions";
 import Option from "../../../model/Option";
 import FeedBack from "../../../utils/Feedback";
 import Loading from "../../../components/utils/Loading";
+import Error from "../../../components/utils/Error";
 
 import "./renderPoll.css";
 
@@ -28,6 +29,7 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
     const [modeToChangeTo, setModeToChangeTo] = useState<PollMode>(PollMode.RENDER);
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [hasOccurredAnError, setHasOccurredAnError] = useState<boolean>(false);
 
     useEffect(() => {
         const title = window.location.href.split("/")[4];
@@ -39,20 +41,22 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
                 setOptions(resp.data._options);
                 setVoteHasUpdate(false);
             })
-            .catch(err => console.log(err))
+            .catch(err => setHasOccurredAnError(true))
             .finally(() => setIsLoading(false));
     }, [voteHasUpdate])
 
     useEffect(() => {
         const title = window.location.href.split("/")[4];
 
-        const interval = setInterval(() => {
-            APICall.get(`/options/listener?pollTitle=${title}`)
-                .then(resp => setVoteHasUpdate(resp.data))
-        }, 1000)
+        if (!hasOccurredAnError) {
+            const interval = setInterval(() => {
+                APICall.get(`/options/listener?pollTitle=${title}`)
+                    .then(resp => setVoteHasUpdate(resp.data))
+            }, 1000)
 
-        return () => clearInterval(interval);
-    }, [])
+            return () => clearInterval(interval);
+        }
+    }, [hasOccurredAnError])
 
     function changeMode(mode?: PollMode) {
         setModeToChangeTo(mode || PollMode.RENDER);
@@ -60,7 +64,7 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
         if (!showAuthScreen) {
             setShowAuthScreen(true);
         } else {
-            if(creatorCode) {
+            if (creatorCode) {
                 if (modeToChangeTo === PollMode.UPDATE) {
                     APICall.post("/poll/auth", { id: poll._id, creatorCode })
                         .then(resp => {
@@ -150,7 +154,9 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
 
     return (
         <div className="flex-row-center margin-y">
-            {isLoading ? <Loading /> : renderPoll()}
+            {!hasOccurredAnError ? (
+                <>{isLoading ? <Loading /> : renderPoll()}</>
+            ) : <Error />}
         </div>
     )
 }
