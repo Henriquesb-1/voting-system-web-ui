@@ -2,6 +2,9 @@
     width: 100%;
 }
 
+.input-group .input {
+    width: 100%;
+}
 .input-group .input input {
     width: 800px;
     height: 35px;
@@ -33,4 +36,11 @@
     background: none;
     border: none;
     cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+    .input-group .input input {
+        width: 100%;
+    }
+    
 }
