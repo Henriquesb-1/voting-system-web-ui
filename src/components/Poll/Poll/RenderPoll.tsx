@@ -62,7 +62,7 @@ export default function RenderPoll({ setPollMode, setPollToDeleteOrUpdate }: Ren
     }, [hasOccurredAnError, hasExpired])
 
     function changeMode(mode?: PollMode) {
-        setModeToChangeTo(mode || PollMode.RENDER);
+        setModeToChangeTo(mode || modeToChangeTo);
 
         if (!showAuthScreen) {
             setShowAuthScreen(true);
